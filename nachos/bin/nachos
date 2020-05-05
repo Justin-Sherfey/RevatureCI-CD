@@ -13,3 +13,4 @@ trap onexit 0
 stty -icanon min 1 -echo
 java nachos.machine.Machine $*
 
+# YaosenLin have chmod a+x
