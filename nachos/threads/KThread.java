@@ -415,6 +415,14 @@ public class KThread {
 		Lib.assertTrue(this == currentThread);
 	}
 
+	public boolean isBlocked() {
+		if(status == statusBlocked) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	private static class PingTest implements Runnable {
 		PingTest(int which) {
 			this.which = which;
