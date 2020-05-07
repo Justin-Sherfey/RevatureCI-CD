@@ -1,3 +1,22 @@
 Yaosen Lin
 Sung Jun Kim
 Justin Sherfey
+
+Alarm - For the alarm implementation we used a priority queue to store Sleep Threads, which was an object
+we defined to encapsulate a KThread and wakeTime. In our timerInterrupt we made sure that SleepQueue
+was not empty and that the machine timer had not hit its reset threshold yet. If it had, then we forced
+an interrupt. For waitUntil we made sure that the x parameter was not 0 or negative, then we initialized
+a new Sleep Thread with the current thread and the wakeTime, which was updated with the minimum number of
+clock ticks to wait. 
+
+Join -
+
+
+Condition - 
+
+
+Condition2 -
+
+
+
+Rendezvous - 
