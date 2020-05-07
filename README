@@ -7,7 +7,10 @@ we defined to encapsulate a KThread and wakeTime. In our timerInterrupt we made 
 was not empty and that the machine timer had not hit its reset threshold yet. If it had, then we forced
 an interrupt. For waitUntil we made sure that the x parameter was not 0 or negative, then we initialized
 a new Sleep Thread with the current thread and the wakeTime, which was updated with the minimum number of
-clock ticks to wait. 
+clock ticks to wait. To test this we created a list of different durations and verified that the thread 
+approximately waited for its time set. We also tested the base case and made sure that the thread did not wait,
+in which they all passed. Our results ran good, while it was not the exact wait time, the thread waited almost
+perfect. 
 
 Join -
 
