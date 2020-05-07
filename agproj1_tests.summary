@@ -1,0 +1,106 @@
+------[                  Wed May  6 18:20:04 2020                  ]------
+------[  Grading Commit: 3c1b2c07f367f38e6b0b9bbf967b2336c068e995  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Wed May  6 21:02:05 2020                  ]------
+------[  Grading Commit: d91d285b4792448896e97d4adb9a60a92d6aa735  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Thu May  7 01:00:07 2020                  ]------
+------[  Grading Commit: 3f34274ffe19ffd829658b9f3321916957ee8904  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Thu May  7 01:21:03 2020                  ]------
+------[  Grading Commit: 4e60113c3d78a8d496a622afe4fdf794f32130fe  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Thu May  7 02:21:03 2020                  ]------
+------[  Grading Commit: b1ad9b9321ab39fbaeebf28b01b34b5573f1c045  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Thu May  7 02:40:46 2020                  ]------
+------[  Grading Commit: 3559ab18c6b25976e04cf2bc6aa9d889e6d194b6  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Thu May  7 03:00:08 2020                  ]------
+------[  Grading Commit: 8f8b9f260d3d90233a8d3806aa64680d3bf10748  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Thu May  7 03:00:08 2020                  ]------
+------[  Grading Commit: 8f8b9f260d3d90233a8d3806aa64680d3bf10748  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+------[                  Thu May  7 03:01:09 2020                  ]------
+------[  Grading Commit: 8f8b9f260d3d90233a8d3806aa64680d3bf10748  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Thu May  7 03:20:05 2020                  ]------
+------[  Grading Commit: d81bea2212bbddb8134c1a323532782da89bd733  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
+------[                  Thu May  7 03:20:05 2020                  ]------
+------[  Grading Commit: d81bea2212bbddb8134c1a323532782da89bd733  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+------[                  Thu May  7 03:21:00 2020                  ]------
+------[  Grading Commit: d81bea2212bbddb8134c1a323532782da89bd733  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
