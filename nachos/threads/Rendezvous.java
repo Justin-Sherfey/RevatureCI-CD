@@ -11,6 +11,8 @@ public class Rendezvous {
     /**
      * Allocate a new Rendezvous.
      */
+    private HashMap<Integer, Integer> count;
+    private HashMap<Integer, HashMap<Integer, Integer>> id;
     private HashMap<Integer, Integer> turn; // 0 for producer, 1 for consumer
     private HashMap<Integer, Boolean> isDone;
     private HashMap<Integer, Lock> lock;
@@ -19,11 +21,11 @@ public class Rendezvous {
     private HashMap<Integer, Integer> buffer;
     
     public Rendezvous () {
+        count = new HashMap<Integer, Integer>();
+        id = new HashMap<Integer, HashMap<Integer, Integer>>();
         turn = new HashMap<Integer, Integer>();
-        isDone = new HashMap<Integer, Boolean>();
         lock = new HashMap<Integer, Lock>();
         waitCV = new HashMap<Integer, Condition>();
-        readCV = new HashMap<Integer, Condition>();
         buffer = new HashMap<Integer, Integer>();
     }
 
@@ -45,60 +47,53 @@ public class Rendezvous {
      */
     public int exchange (int tag, int value) {
         boolean intStatus = Machine.interrupt().disable();
-        int returnValue = 0;
-        if(!turn.containsKey(tag)) {
-            //Initialize
+
+        if(!count.containsKey(tag)) {
+            count.put(tag, 1);
+            HashMap<Integer, Integer> pid_id = new HashMap<Integer, Integer>();
+            id.put(tag, pid_id);
+            id.get(tag).put(KThread.currentThread().get_id(), 0);
             turn.put(tag, 0);
-            isDone.put(tag, true);
             Lock guard = new Lock();
-            Condition wait = new Condition(guard);
-            Condition read = new Condition(guard);
             lock.put(tag, guard);
-            waitCV.put(tag, wait);
-            readCV.put(tag, read);
+            Condition cv = new Condition(guard);
+            waitCV.put(tag, cv);
             buffer.put(tag, 0);
-
-            guard.acquire();
-            isDone.replace(tag, false);
-            buffer.replace(tag, value);
-            turn.replace(tag, 1);
-            wait.wake();
-            read.sleep();
-
-            returnValue = buffer.get(tag);
-            isDone.replace(tag, true);
-            turn.replace(tag, 0);
-            wait.wake();
-            guard.release();
         } else {
-            Lock guard = lock.get(tag);
-            Condition wait = waitCV.get(tag);
-            Condition read = readCV.get(tag);
-            //System.out.println("***Thread " + KThread.currentThread() + "---" + isDone.get(tag) + "---" + turn.get(tag));
-            guard.acquire();
-            while(isDone.get(tag)==false && turn.get(tag)==0) {
-                // sleep new producer while current exchange has not done yet.
-                wait.sleep();
-            }
-            if(turn.get(tag)==0) {
-                isDone.replace(tag, false);
-                buffer.replace(tag, value);
-                turn.replace(tag, 1);
-                wait.wake();
-                read.sleep();
-                returnValue = buffer.get(tag);
-                isDone.replace(tag, true);
-                turn.replace(tag, 0);
-                wait.wake();
-                guard.release();
-            } else {
-                returnValue = buffer.get(tag);
-                buffer.replace(tag, value);
-                turn.replace(tag, 0);
-                read.wake();
-                guard.release();
-            }
+            int cnt = count.get(tag);
+            count.replace(tag, cnt+1);
+            id.get(tag).put(KThread.currentThread().get_id(), cnt);
         }
+
+        int returnValue = 0;
+        Lock guard = lock.get(tag);
+        guard.acquire();
+
+        int currentTurn = turn.get(tag);
+        int currentId = id.get(tag).get(KThread.currentThread().get_id());
+        Condition cv = waitCV.get(tag);
+
+        while(currentId != currentTurn) {
+            cv.wake();
+            cv.sleep();
+            currentTurn = turn.get(tag);
+        }
+        
+        if(currentId%2==0) {
+            buffer.replace(tag, value);
+            turn.replace(tag, currentTurn+1);
+            cv.wake();
+            cv.sleep();
+            returnValue = buffer.get(tag);
+            turn.replace(tag, currentTurn+2);
+        } else {
+            returnValue = buffer.get(tag);
+            buffer.replace(tag, value);
+            turn.replace(tag, currentTurn-1);
+            cv.wake();
+        }
+        
+        guard.release();
         Machine.interrupt().restore(intStatus);
         return returnValue;
     }
