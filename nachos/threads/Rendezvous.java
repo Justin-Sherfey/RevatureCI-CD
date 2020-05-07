@@ -56,11 +56,10 @@ public class Rendezvous {
                 return this.value.get(tag);
             } else {
                 int returnValue = this.value.get(tag);
-                KThread wakeThread = waitThread.get(tag);
                 this.value.replace(tag, value);
                 waitThread.replace(tag, null);
-                wakeThread.ready();
-
+                thread.ready();
+                
                 Machine.interrupt().restore(intStatus);
                 return returnValue;
             }
