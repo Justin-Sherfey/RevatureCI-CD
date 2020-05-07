@@ -12,7 +12,17 @@ approximately waited for its time set. We also tested the base case and made sur
 in which they all passed. Our results ran good, while it was not the exact wait time, the thread waited almost
 perfect. 
 
-Join -
+Join - For the join implentation in KThreads, we first initialized a KThread called joinThread to null.
+We made sure that the current status of the thread was not finished, then making sure that joinThread was
+not yet initialized, so that we could have joinThread become the current thread, putting the thread back
+to sleep and restoring interrupts. This makes sure that if A was already finished, then B would return
+immediately. If A was not finished, then B would wait inside of join until A finished then resume B. 
+To accomplish this we changed runThread to pause the machine if joinThread was not null and ready it up,
+then setting it null, resuming the process. To test this we would create a child and make sure that the child
+finished before we called join, in which child1 should be fully finished, which it was. We also
+created multiple child situations which forked and made sure that they finished after joining. In 
+these cases we assured that B does not block and waits for A to finish executing if B calls join on A
+and that one thread can join with multiple other threads in succession. 
 
 
 Condition - 
