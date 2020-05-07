@@ -25,10 +25,20 @@ these cases we assured that B does not block and waits for A to finish executing
 and that one thread can join with multiple other threads in succession. 
 
 
-Condition - 
+Condition2 - To implement condition2 using manipulated interrupts, we used a Linkedlist for threads to
+keep track of all the waiting threads. For the sleep method we would interrupt, add the current thread
+to the waitQueue, put the current thread to sleep, then restore the interrupt. This insured that the
+associated lock was atomically released and went to sleep until another thread woke it up .For the wake
+method we set the disable interrupt, initialized a new thread. Once that new thread was set or was not blocked, then 
+one thread would be cancelled and we would ready the waitThread, restoring the interrupt afterwards. This
+was called to wake up threads sleeping on the condition variable. For wakeAll we did something similar
+to wake but instead woke all threads, by going through the entire waitQueue.
 
 
-Condition2 -
+SleepFor/cancel - For the cancel implentation in Alarm, we simply iterated through our SleepThread priority queue
+and made sure to cancel any timer where the sleepTread had a timer set. If the SleepThread is
+then we remove it from the priority queue and return true. Else it wasn't and we would
+return false. For the 
 
 
 
