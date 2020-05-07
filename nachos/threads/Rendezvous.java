@@ -47,7 +47,7 @@ public class Rendezvous {
      */
     public int exchange (int tag, int value) {
         boolean intStatus = Machine.interrupt().disable();
-
+        System.out.println(KThread.currentThread().getName() + " into exchange");
         if(!count.containsKey(tag)) {
             count.put(tag, 1);
             HashMap<Integer, Integer> pid_id = new HashMap<Integer, Integer>();
