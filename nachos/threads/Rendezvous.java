@@ -65,7 +65,7 @@ public class Rendezvous {
             id.get(tag).put(KThread.currentThread().get_id(), cnt);
         }
 
-        int returnValue = 0;
+        int returnValue = 1;
         Lock guard = lock.get(tag);
         guard.acquire();
 
