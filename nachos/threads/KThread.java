@@ -415,6 +415,10 @@ public class KThread {
 		Lib.assertTrue(this == currentThread);
 	}
 
+	public int get_id() {
+		return id;
+	}
+
 	public boolean isBlocked() {
 		if(status == statusBlocked) {
 			return true;
