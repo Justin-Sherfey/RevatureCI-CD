@@ -16,3 +16,12 @@ PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element 
 PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
 FAIL : RENDEZVOUS - One Exchange.
 
+------[                  Thu May  7 01:00:07 2020                  ]------
+------[  Grading Commit: 3f34274ffe19ffd829658b9f3321916957ee8904  ]------
+PASS : ALARM - Tests waitUntil to ensure it waits at least minimum amount of time
+PASS : JOIN - Tests join on completed child thread
+PASS : CV2 (1) - Strict interlock test. Ping and pong threads alternate.
+PASS : CV2 (2) - Producer creates list [1,2,3,4,5], consumer pops first element until list is empty.
+PASS : SLEEPFOR - Main thread will call sleepFor on a Condition2, then it should hit the time out and wake up.
+FAIL : RENDEZVOUS - One Exchange.
+
