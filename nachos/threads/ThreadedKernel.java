@@ -46,8 +46,8 @@ public class ThreadedKernel extends Kernel {
 	 * here.
 	 */
 	public void selfTest() {
-		// alarm.alarmTest1();
-		KThread.selfTest();
+		alarm.alarmTest1();
+		// KThread.selfTest();
 		// Condition2.selfTest();
 		// Rendezvous.selfTest();
 

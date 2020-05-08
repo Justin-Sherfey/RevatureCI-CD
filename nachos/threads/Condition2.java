@@ -145,7 +145,10 @@ public class Condition2 {
 	public static void selfTest() {
 		// new InterlockTest();
 		// cvTest5();
+		System.out.println("----sleepForTest1----");
 		sleepForTest1();
+		System.out.println("----sleepForTest2----");
+		sleepForTest2();
 	}
 
 	private static class InterlockTest {
@@ -260,16 +263,39 @@ public class Condition2 {
 	private static void sleepForTest2() {
 		Lock lock = new Lock();
 		Condition2 cv = new Condition2(lock);
-	
-		lock.acquire();
+
+		long x = 1000;
+		KThread t1 = new KThread( new Runnable () {
+            public void run() {
+				lock.acquire();
+				long t0 = Machine.timer().getTime();
+				cv.sleepFor(x);
+				long t1 = Machine.timer().getTime();
+				System.out.println(KThread.currentThread().getName() + " woke up, slept for " + (t1-t0) + " ticks because of t2's wake" + "\nit should wake at " + (t0+x) + " if without t2's wake.");
+				lock.release();
+            }
+        });
+        t1.setName("t1");
+
+		KThread t2 = new KThread( new Runnable () {
+            public void run() {
+				lock.acquire();
+				cv.wake();
+				lock.release();
+            }
+        });
+        t2.setName("t2");
+
+		t1.fork(); t2.fork();
+		t1.join();
+
 		long t0 = Machine.timer().getTime();
-		System.out.println (KThread.currentThread().getName() + " sleeping");
-		// no other thread will wake us up, so we should time out
-		cv.sleepFor(2000);
-		long t1 = Machine.timer().getTime();
-		System.out.println (KThread.currentThread().getName() +
-					" woke up, slept for " + (t1 - t0) + " ticks");
-		lock.release();
+		Lib.assertTrue(!Machine.interrupt().disabled());
+		while(Machine.timer().getTime() < t0 + x) {
+			System.out.println(Machine.timer().getTime());
+			KThread.currentThread().yield();
+		}
+		System.out.println("the alarm does not wake t1 because it had been woke.");
 	}
 
 	private Lock conditionLock;
