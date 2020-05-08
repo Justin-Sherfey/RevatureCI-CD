@@ -463,7 +463,6 @@ public class KThread {
 
 		System.out.println("----joinTest1----");
 		joinTest1();
-<<<<<<< HEAD
 		System.out.println("----joinTest2----");
 		joinTest2();
 		System.out.println("----joinTest3----");
@@ -472,9 +471,6 @@ public class KThread {
 		//joinTest4();
 		System.out.println("----joinTest5----");
 		joinTest5();
-=======
-		joinTest2();
->>>>>>> ac351f103516c780e5f2f45f9a96172e97bef1d6
 	}
 
 	private static void joinTest1 () {
@@ -568,7 +564,6 @@ public class KThread {
 		System.out.println("is it? " + (child1.status == statusFinished));
 		Lib.assertTrue((child1.status == statusFinished), " Expected child1 to be finished.");
 	}
-<<<<<<< HEAD
 
 	private static void joinTest4() {
 		try {
@@ -590,41 +585,6 @@ public class KThread {
 		// We want the child to finish before we call join.  Although
 		// our solutions to the problems cannot busy wait, our test
 		// programs can!
-=======
-	private static void joinTest2 () {
-		KThread child1 = new KThread( new Runnable () {
-			public void run() {
-				System.out.println("child1 thread, I (heart) Nachos!");
-			}
-		});
-		KThread child2 = new KThread( new Runnable () {
-			public void run() {
-				System.out.println("child2 thread, I (heart) Nachos!");
-			}
-		});
-		child1.setName("child1").fork();
-		child2.setName("child2").fork();
-		// We want the child to finish before we call join.  Although
-		// our solutions to the problems cannot busy wait, our test
-		// programs can!
-	
-		for (int i = 0; i < 5; i++) {
-			System.out.println ("parent thread busy...");
-			KThread.currentThread().yield();
-		}
-		
-		child1.join();
-		child2.join();
-		
-		System.out.println("After joining, child1 should be finished.");
-		System.out.println("is it? " + (child1.status == statusFinished));
-		Lib.assertTrue((child1.status == statusFinished), " Expected child1 to be finished.");
-		System.out.println("After joining, child2 should be finished.");
-		System.out.println("is it? " + (child2.status == statusFinished));
-		Lib.assertTrue((child2.status == statusFinished), " Expected child1 to be finished.");
-	
-	}
->>>>>>> ac351f103516c780e5f2f45f9a96172e97bef1d6
 	
 		for (int i = 0; i < 5; i++) {
 			System.out.println ("parent thread busy...");
