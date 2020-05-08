@@ -28,17 +28,26 @@ and that one thread can join with multiple other threads in succession.
 Condition2 - To implement condition2 using manipulated interrupts, we used a Linkedlist for threads to
 keep track of all the waiting threads. For the sleep method we would interrupt, add the current thread
 to the waitQueue, put the current thread to sleep, then restore the interrupt. This insured that the
-associated lock was atomically released and went to sleep until another thread woke it up .For the wake
+associated lock was atomically released and went to sleep until another thread woke it up. For the wake
 method we set the disable interrupt, initialized a new thread. Once that new thread was set or was not blocked, then 
-one thread would be cancelled and we would ready the waitThread, restoring the interrupt afterwards. This
-was called to wake up threads sleeping on the condition variable. For wakeAll we did something similar
-to wake but instead woke all threads, by going through the entire waitQueue.
+one thread would be cancelled and we would ready the waitThread, restoring the interrupt afterwards. We implented
+a method in KThread to check if a thread was blocked. This was called to wake up threads sleeping on the condition 
+variable. For wakeAll we did something similar to wake but instead woke all threads, by going through the 
+entire waitQueue. To test this we compared our results on the interlock tests to that of condition. 
+Ours performed well in the fact that our implentation was able to mimick the original Coditions behavior
+using manipulated interrupts instead of sephamores. 
 
 
 SleepFor/cancel - For the cancel implentation in Alarm, we simply iterated through our SleepThread priority queue
 and made sure to cancel any timer where the sleepTread had a timer set. If the SleepThread is
 then we remove it from the priority queue and return true. Else it wasn't and we would
-return false. For the 
+return false. For the sleepFor method we used the waitQueue, priorityqueue, to hold the current thread.
+We then released the condition lock, waited until timeout, and then aquired the cond lock. restoring
+interrupt afterward. This insured that the associated lock was atomically released and went to sleep on the 
+condition variable until another thread would wake it up or timeout hit. To test this we 
+initialized a lock and condition, and in between aquiring and releasing the lock slept for a set amount
+of time with no other threads there to wake it up and made sure that the timeout condition was met.
+We also created tests where other threads were requesting so the timeout condition would not be met.
 
 
 
