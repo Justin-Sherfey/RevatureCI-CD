@@ -60,10 +60,11 @@ public class Condition2 {
 		
 		boolean intStatus = Machine.interrupt().disable();
 		
-		KThread waitThread = null;
-		do {
-			waitThread = waitQueue.poll();
-		} while(waitThread != null);
+		KThread waitThread = waitQueue.poll();;
+		
+		// do {
+		// 	waitThread = waitQueue.poll();
+		// } while(waitThread != null);
 
 		if(waitThread != null) {
 			ThreadedKernel.alarm.cancel(waitThread);
