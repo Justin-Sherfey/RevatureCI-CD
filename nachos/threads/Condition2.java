@@ -24,7 +24,6 @@ public class Condition2 {
 	 */
 	public Condition2(Lock conditionLock) {
 		this.conditionLock = conditionLock;
-		
 		waitQueue = new LinkedList<KThread>();
 	}
 
@@ -39,7 +38,10 @@ public class Condition2 {
 		
 		boolean intStatus = Machine.interrupt().disable();
 		
-		waitQueue.add(KThread.currentThread());
+		KThread currentThread = KThread.currentThread();
+		currentThread.setCV(this);
+		
+		waitQueue.add(currentThread);
 		conditionLock.release();
 		KThread.sleep();
 		conditionLock.acquire();
@@ -61,17 +63,16 @@ public class Condition2 {
 		KThread waitThread = null;
 		do {
 			waitThread = waitQueue.poll();
-		} while(waitThread != null && !waitThread.isBlocked());
+		} while(waitThread != null);
 
 		if(waitThread != null) {
 			ThreadedKernel.alarm.cancel(waitThread);
+			waitThread.setCV(null);
 			waitThread.ready();
-			//System.out.println(waitThread.getName() + "wakes up");
 		}
 		
 		Machine.interrupt().restore(intStatus);
 		return;
-
 	}
 
 	/**
@@ -87,10 +88,9 @@ public class Condition2 {
 			KThread waitThread = waitQueue.poll();
 			if(waitThread==null) {
 				break;
-			} else if(!waitThread.isBlocked()) {
-				continue;
 			} else {
 				ThreadedKernel.alarm.cancel(waitThread);
+				waitThread.setCV(null);
 				waitThread.ready();
 			}
 		}
@@ -117,7 +117,10 @@ public class Condition2 {
 
 		boolean intStatus = Machine.interrupt().disable();
 
-		waitQueue.add(KThread.currentThread());
+		KThread currentKThread = KThread.currentThread();
+		currentKThread.setCV(this);
+
+		waitQueue.add(currentKThread);
 		conditionLock.release();
 		ThreadedKernel.alarm.waitUntil(timeout);
 		conditionLock.acquire();
@@ -127,10 +130,21 @@ public class Condition2 {
 		return;
 	}
 
+	public void cancel(KThread thread) {
+		for(KThread waitThread : waitQueue) {
+			if(waitThread.compareTo(thread)==0) {
+				waitQueue.remove(waitThread);
+				return;
+			}
+		}
+		Lib.assertTrue(false, "this line should not be reachable.");
+		return;
+	}
+
 	public static void selfTest() {
-		cvTest5();
-		//new InterlockTest();
-		//sleepForTest1();
+		// new InterlockTest();
+		// cvTest5();
+		sleepForTest1();
 	}
 
 	private static class InterlockTest {
@@ -227,8 +241,22 @@ public class Condition2 {
         //for (int i = 0; i < 50; i++) { KThread.currentThread().yield(); }
     }
 
+	private static void sleepForTest1() {
+		Lock lock = new Lock();
+		Condition2 cv = new Condition2(lock);
+	
+		lock.acquire();
+		long t0 = Machine.timer().getTime();
+		System.out.println (KThread.currentThread().getName() + " sleeping");
+		// no other thread will wake us up, so we should time out
+		cv.sleepFor(2000);
+		long t1 = Machine.timer().getTime();
+		System.out.println (KThread.currentThread().getName() +
+					" woke up, slept for " + (t1 - t0) + " ticks");
+		lock.release();
+	}
 
-	private static void sleepForTest1 () {
+	private static void sleepForTest2() {
 		Lock lock = new Lock();
 		Condition2 cv = new Condition2(lock);
 	

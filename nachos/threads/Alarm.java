@@ -35,7 +35,11 @@ public class Alarm {
 		
 		Machine.interrupt().disable();
 		while(!sleepQueue.isEmpty() && sleepQueue.peek().wakeTime <= Machine.timer().getTime()) {
-			sleepQueue.poll().thread.ready();
+			KThread wakeThread = sleepQueue.poll().thread;
+			if(wakeThread.getCV()!=null) {
+				wakeThread.getCV().cancel(wakeThread);
+			}
+			wakeThread.ready();
 		}
 		Machine.interrupt().enable();
 		
