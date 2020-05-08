@@ -34,7 +34,7 @@ public class Alarm {
 		// KThread.currentThread().yield();
 		
 			
-		Machine.interrupt().disable();
+		boolean intStatus = Machine.interrupt().disable();
 		// Constantly checks to make sure sleepQueue is not empty and has not reached machine's timer
 		while(!sleepQueue.isEmpty() && sleepQueue.peek().wakeTime <= Machine.timer().getTime()) {
 			KThread wakeThread = sleepQueue.poll().thread;
@@ -44,7 +44,7 @@ public class Alarm {
 			wakeThread.ready();
 		}
 		// if it has then force an interrupt
-		Machine.interrupt().enable();
+		Machine.interrupt().restore(intStatus);
 		
 		return;
 	}
