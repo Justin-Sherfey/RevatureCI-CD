@@ -33,7 +33,9 @@ public class Alarm {
 	public void timerInterrupt() {
 		// KThread.currentThread().yield();
 		
+			
 		Machine.interrupt().disable();
+		// Constantly checks to make sure sleepQueue is not empty and has not reached machine's timer
 		while(!sleepQueue.isEmpty() && sleepQueue.peek().wakeTime <= Machine.timer().getTime()) {
 			KThread wakeThread = sleepQueue.poll().thread;
 			if(wakeThread.getCV()!=null) {
@@ -41,6 +43,7 @@ public class Alarm {
 			}
 			wakeThread.ready();
 		}
+		// if it has then force an interrupt
 		Machine.interrupt().enable();
 		
 		return;
@@ -65,6 +68,7 @@ public class Alarm {
 		// 	KThread.yield();
 		// }
 
+		// makes sure clock ticks a positive number
 		if(x <= 0) {
 			return;
 		} else {
@@ -119,9 +123,10 @@ public class Alarm {
 			return 0; // should raise an error.
 		}
 	}
-
+	
 	public PriorityQueue<SleepThread> sleepQueue = new PriorityQueue<SleepThread>();
-
+	
+	// sample alarm test, makes sure Alarm is waiting
 	public static void alarmTest1() {
 		int durations[] = {1000, 10*1000, 100*1000};
 		long t0, t1;

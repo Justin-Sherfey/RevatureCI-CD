@@ -1,0 +1,54 @@
+Yaosen Lin
+Sung Jun Kim
+Justin Sherfey
+
+Alarm - For the alarm implementation we used a priority queue to store Sleep Threads, which was an object
+we defined to encapsulate a KThread and wakeTime. In our timerInterrupt we made sure that SleepQueue
+was not empty and that the machine timer had not hit its reset threshold yet. If it had, then we forced
+an interrupt. For waitUntil we made sure that the x parameter was not 0 or negative, then we initialized
+a new Sleep Thread with the current thread and the wakeTime, which was updated with the minimum number of
+clock ticks to wait. To test this we created a list of different durations and verified that the thread 
+approximately waited for its time set. We also tested the base case and made sure that the thread did not wait,
+in which they all passed. Our results ran good, while it was not the exact wait time, the thread waited almost
+perfect. 
+
+Join - For the join implentation in KThreads, we first initialized a KThread called joinThread to null.
+We made sure that the current status of the thread was not finished, then making sure that joinThread was
+not yet initialized, so that we could have joinThread become the current thread, putting the thread back
+to sleep and restoring interrupts. This makes sure that if A was already finished, then B would return
+immediately. If A was not finished, then B would wait inside of join until A finished then resume B. 
+To accomplish this we changed runThread to pause the machine if joinThread was not null and ready it up,
+then setting it null, resuming the process. To test this we would create a child and make sure that the child
+finished before we called join, in which child1 should be fully finished, which it was. We also
+created multiple child situations which forked and made sure that they finished after joining. In 
+these cases we assured that B does not block and waits for A to finish executing if B calls join on A
+and that one thread can join with multiple other threads in succession. 
+
+
+Condition2 - To implement condition2 using manipulated interrupts, we used a Linkedlist for threads to
+keep track of all the waiting threads. For the sleep method we would interrupt, add the current thread
+to the waitQueue, put the current thread to sleep, then restore the interrupt. This insured that the
+associated lock was atomically released and went to sleep until another thread woke it up. For the wake
+method we set the disable interrupt, initialized a new thread. Once that new thread was set or was not blocked, then 
+one thread would be cancelled and we would ready the waitThread, restoring the interrupt afterwards. We implented
+a method in KThread to check if a thread was blocked. This was called to wake up threads sleeping on the condition 
+variable. For wakeAll we did something similar to wake but instead woke all threads, by going through the 
+entire waitQueue. To test this we compared our results on the interlock tests to that of condition. 
+Ours performed well in the fact that our implentation was able to mimick the original Coditions behavior
+using manipulated interrupts instead of sephamores. 
+
+
+SleepFor/cancel - For the cancel implentation in Alarm, we simply iterated through our SleepThread priority queue
+and made sure to cancel any timer where the sleepTread had a timer set. If the SleepThread is
+then we remove it from the priority queue and return true. Else it wasn't and we would
+return false. For the sleepFor method we used the waitQueue, priorityqueue, to hold the current thread.
+We then released the condition lock, waited until timeout, and then aquired the cond lock. restoring
+interrupt afterward. This insured that the associated lock was atomically released and went to sleep on the 
+condition variable until another thread would wake it up or timeout hit. To test this we 
+initialized a lock and condition, and in between aquiring and releasing the lock slept for a set amount
+of time with no other threads there to wake it up and made sure that the timeout condition was met.
+We also created tests where other threads were requesting so the timeout condition would not be met.
+
+
+
+Rendezvous - 
