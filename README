@@ -35,7 +35,8 @@ a method in KThread to check if a thread was blocked. This was called to wake up
 variable. For wakeAll we did something similar to wake but instead woke all threads, by going through the 
 entire waitQueue. To test this we compared our results on the interlock tests to that of condition. 
 Ours performed well in the fact that our implentation was able to mimick the original Coditions behavior
-using manipulated interrupts instead of sephamores. 
+using manipulated interrupts instead of sephamores. This included verifying that the wake method
+wakes at most one thread, wakeAll wakes all waiting threads.
 
 
 SleepFor/cancel - For the cancel implentation in Alarm, we simply iterated through our SleepThread priority queue
@@ -47,7 +48,9 @@ interrupt afterward. This insured that the associated lock was atomically releas
 condition variable until another thread would wake it up or timeout hit. To test this we 
 initialized a lock and condition, and in between aquiring and releasing the lock slept for a set amount
 of time with no other threads there to wake it up and made sure that the timeout condition was met.
-We also created tests where other threads were requesting so the timeout condition would not be met.
+We also created tests where other threads were requesting so the timeout condition would not be met. 
+We also made sure that it handled multiple threads correctly with different timeouts and all could
+be woken up with wakeAll.
 
 
 
